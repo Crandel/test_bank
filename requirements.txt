@@ -1,0 +1,8 @@
+# Bleeding edge Django
+django
+
+# API
+djangorestframework
+
+# Configuration
+django-environ

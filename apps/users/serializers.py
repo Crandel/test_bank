@@ -1,5 +1,5 @@
 import re
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from rest_framework.fields import empty

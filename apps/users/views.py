@@ -18,18 +18,21 @@ class SignUpView(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = SignUpSerializer
     permission_classes = ()
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
     def create(self, request, *args, **kwargs):
-        import ipdb; ipdb.set_trace()  # BREAKPOINT
-        
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        user_dict = UserSerializer(context={'request': request}, instance=user)
-        return Response(user_dict.data, status=status.HTTP_201_CREATED, headers=headers)
+        is_validated = serializer.is_valid()
+
+        if is_validated:
+            user = self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            user_dict = UserSerializer(context={'request': request}, instance=user)
+            data = {'errors': False, 'data': user_dict.data}
+        else:
+            data['error'] = True
+            data['code'] = status.HTTP_400_BAD_REQUEST
+            data['message'] = serializer.errors
+
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
         return serializer.save()

@@ -3,11 +3,13 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from accounts.utils import get_currency_rate
+
 
 CURRENCY = (
     (0, 'EUR'),
     (1, 'USD'),
-    (2, 'GBR'),
+    (2, 'GBP'),
     (3, 'CHF'),
 )
 
@@ -19,15 +21,26 @@ def get_random_id():
 class Account(models.Model):
     id = models.IntegerField(primary_key=True, default=get_random_id, editable=False)
     user = models.ForeignKey('users.User', related_name='account_owner', verbose_name=_('Account Owner'))
-    balance = models.FloatField(_('Balance'), default=0.0)
+    balance = models.DecimalField(_('Balance'), max_digits=10, default=0.0, decimal_places=2)
     currency = models.PositiveIntegerField(_('Currency'), choices=CURRENCY, default=0)
     create_time = models.DateTimeField(_('Create time'), default=timezone.now)
 
+    @property
+    def currency_type(self):
+        return CURRENCY[self.currency][1]
 
-class Transaction(models.Model):
-    source_account = models.ForeignKey('accounts.Account', related_name='source_account',
-                                       verbose_name=_('Source Account'))
-    destination_account = models.ForeignKey('accounts.Account', related_name='destination_account',
-                                            verbose_name=_('Destination Account'))
-    amount = models.FloatField(_('Balance'), default=0.0)
-    create_time = models.DateTimeField(_('Create time'), default=timezone.now)
+    def get_coefficient(self, amount, other_currency):
+        k = 1.0
+        cur_type = self.currency_type
+        if cur_type != other_currency:
+            k = get_currency_rate(cur_type, other_currency)
+        return k
+
+    def check_result(self, amount, other_currency):
+        k = self.get_coefficient(amount, other_currency)
+        amount = amount * k
+        if amount:
+            return self.balance - amount > 0
+
+    def __str__(self):
+        return '%.2f %s' % (self.balance, self.currency_type)

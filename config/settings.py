@@ -34,7 +34,8 @@ THIRD_PARTY_APPS = (
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'users',
-    'accounts'
+    'accounts',
+    'transactions'
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -167,6 +168,8 @@ ADMIN_URL = r'^admin/'
 # Note: This key only used for development and testing.
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='CHANGEME!!!#=$rcwjy2mk5)17-yb$(bkaju8r9*683(+1$+b@etxc9m^48)+')
 
+UUID_REGEX = '[0-9]{8}$'
+
 # DJANGO-REST-FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -176,7 +179,7 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
     # 'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
-# END DJANGO-REST-FRAMEWORK CONFIGURATIO
+# END DJANGO-REST-FRAMEWORK CONFIGURATION
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -212,3 +215,6 @@ LOGGING = {
         },
     },
 }
+
+
+FIXER_BASE_URL = 'http://api.fixer.io/latest'

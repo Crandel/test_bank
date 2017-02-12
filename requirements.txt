@@ -6,3 +6,11 @@ djangorestframework
 
 # Configuration
 django-environ
+
+requests
+
+# Local
+factory_boy
+django-test-plus
+ipython==4.2.1
+ipdb

@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import accounts.models
-from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
@@ -14,18 +13,18 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('accounts', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Account',
+            name='Transaction',
             fields=[
                 ('id', models.IntegerField(default=accounts.models.get_random_id, editable=False, primary_key=True, serialize=False)),
-                ('balance', models.DecimalField(decimal_places=2, default=0.0, max_digits=10, verbose_name='Balance')),
-                ('currency', models.PositiveIntegerField(choices=[(0, 'EUR'), (1, 'USD'), (2, 'GBP'), (3, 'CHF')], default=0, verbose_name='Currency')),
+                ('amount', models.DecimalField(decimal_places=2, max_digits=10, verbose_name='Amount')),
                 ('create_time', models.DateTimeField(default=django.utils.timezone.now, verbose_name='Create time')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='account_owner', to=settings.AUTH_USER_MODEL, verbose_name='Account Owner')),
+                ('destination_account', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='destination_account', to='accounts.Account', verbose_name='Destination Account')),
+                ('source_account', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='source_account', to='accounts.Account', verbose_name='Source Account')),
             ],
         ),
     ]

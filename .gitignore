@@ -45,8 +45,12 @@ env
 .venv
 
 # User-uploaded media
-apps/media/
+media/
+staticfiles/
+static/js/project.js
 
+# node
+node_modules/
 
 #vagrant
 .vagrant

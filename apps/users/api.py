@@ -18,6 +18,9 @@ class SignUpView(mixins.CreateModelMixin, generics.GenericAPIView):
     serializer_class = SignUpSerializer
     permission_classes = ()
 
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         is_validated = serializer.is_valid()

@@ -47,7 +47,7 @@ env
 # User-uploaded media
 media/
 staticfiles/
-static/js/project.js
+static/js/project.js*
 
 # node
 node_modules/

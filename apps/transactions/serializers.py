@@ -29,3 +29,19 @@ class TransactionDefaultSerializer(serializers.ModelSerializer):
                 self._errors['amount'] = _('Amount exceeds the limit')
             is_validated = result
         return is_validated
+
+
+class TransactionListSerializer(TransactionDefaultSerializer):
+
+    destination = serializers.SerializerMethodField()
+    source = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Transaction
+        fields = ('source', 'destination', 'amount', 'create_time')
+
+    def get_destination(self, obj):
+        return str(obj.destination_account)
+
+    def get_source(self, obj):
+        return str(obj.source_account)

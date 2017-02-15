@@ -23,10 +23,12 @@ class TransactionCreateAPIView(generics.CreateAPIView):
         if is_validated:
             self.perform_create(serializer)
             data['data'] = serializer.data
+            resp_status = status.HTTP_201_CREATED
         else:
+            resp_status = status.HTTP_400_BAD_REQUEST
             data['error'] = True
-            data['code'] = status.HTTP_400_BAD_REQUEST
+            data['code'] = resp_status
             data['message'] = serializer.errors
 
         headers = self.get_success_headers(serializer.data)
-        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(data, status=resp_status, headers=headers)

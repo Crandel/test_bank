@@ -5,7 +5,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from accounts.serializers import (
-    AccountDetailSerializer, AccountDefaultSerializer
+    AccountDetailSerializer, AccountDefaultSerializer, AccountListSerializer
 )
 from accounts.models import Account
 
@@ -26,14 +26,16 @@ class AccountCreateAPIView(generics.CreateAPIView):
         is_validated = serializer.is_valid()
         if is_validated:
             self.perform_create(serializer)
+            resp_status = status.HTTP_201_CREATED
             data['data'] = serializer.data
         else:
+            resp_status = status.HTTP_400_BAD_REQUEST
             data['error'] = True
-            data['code'] = status.HTTP_400_BAD_REQUEST
+            data['code'] = resp_status
             data['message'] = serializer.errors
 
         headers = self.get_success_headers(serializer.data)
-        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(data, status=resp_status, headers=headers)
 
 
 class AccountDetailAPIView(generics.RetrieveAPIView):
@@ -67,13 +69,13 @@ class AccountListAPIView(generics.ListAPIView):
     - `GET`: Getting list of `Account` objects for all authenticated users
     """
     queryset = Account.objects.all()
-    serializer_class = AccountDetailSerializer
+    serializer_class = AccountListSerializer
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = PageNumberPagination
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        serializer = AccountDetailSerializer(queryset, many=True)
+        serializer = AccountListSerializer(queryset, many=True)
         data = {
             'error': False,
             'data': serializer.data

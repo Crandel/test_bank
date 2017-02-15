@@ -1,3 +1,4 @@
+import decimal
 from random import randint
 from django.db import models
 from django.utils import timezone
@@ -30,10 +31,10 @@ class Account(models.Model):
         return CURRENCY[self.currency][1]
 
     def get_coefficient(self, amount, other_currency):
-        k = 1.0
+        k = decimal.Decimal(1.0)
         cur_type = self.currency_type
         if cur_type != other_currency:
-            k = get_currency_rate(cur_type, other_currency)
+            k = decimal.Decimal(get_currency_rate(cur_type, other_currency))
         return k
 
     def check_result(self, amount, other_currency):

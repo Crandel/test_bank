@@ -37,7 +37,7 @@ export default {
 
       },
       err => {
-        context.error = err;
+        context.error = err.body.message;
       });
   },
 

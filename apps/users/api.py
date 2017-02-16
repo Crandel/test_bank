@@ -24,18 +24,20 @@ class SignUpView(mixins.CreateModelMixin, generics.GenericAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         is_validated = serializer.is_valid()
-
+        data = {'errors': False, 'data': []}
         if is_validated:
             user = self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
             user_dict = UserSerializer(context={'request': request}, instance=user)
-            data = {'errors': False, 'data': user_dict.data}
+            data['data'] = user_dict.data
+            resp_status = status.HTTP_201_CREATED
         else:
+            resp_status = status.HTTP_400_BAD_REQUEST
             data['error'] = True
             data['code'] = status.HTTP_400_BAD_REQUEST
             data['message'] = serializer.errors
 
-        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+        headers = self.get_success_headers(serializer.data)
+        return Response(data, status=resp_status, headers=headers)
 
     def perform_create(self, serializer):
         return serializer.save()

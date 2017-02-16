@@ -7,7 +7,7 @@
           <li><router-link :to="{name: 'login'}" v-if="!user.authenticated">Login</router-link></li>
           <li><router-link :to="{name: 'signup'}" v-if="!user.authenticated">Sign Up</router-link></li>
           <li><router-link :to="{name: 'transaction'}" v-if="user.authenticated">New Transaction</router-link></li>
-          <li><router-link :to="{name: 'login'}" v-if="user.authenticated" @click="logout()">Logout</router-link></li>
+          <li><a v-if="user.authenticated" @click="logout">Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -30,6 +30,7 @@ export default {
   methods: {
     logout() {
       auth.logout()
+      this.$router.push({name: 'login'})
     }
   }
 }

@@ -1,16 +1,16 @@
 # Bleeding edge Django
-django
+Django==2.0.6
 
 # API
-djangorestframework
+djangorestframework==3.8.2
 
 # Configuration
-django-environ
+django-environ==0.4.4
 
-requests
+requests==2.18.4
 
 # Local
 factory_boy
 django-test-plus
-ipython==4.2.1
+ipython
 ipdb

@@ -9,10 +9,10 @@ urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name="base.html")),
 
     # Django Admin, use {% url 'admin:index' %}
-    url(settings.ADMIN_URL, include(admin.site.urls)),  # User management
-    url(r'^api/users/', include("users.urls", namespace="users")),
-    url(r'^api/accounts/', include("accounts.urls", namespace="accounts")),
-    url(r'^api/transactions/', include("transactions.urls", namespace="transactions")),
+    url(settings.ADMIN_URL, admin.site.urls),  # User management
+    url(r'^api/users/', include(("users.urls", "users"), namespace="users")),
+    url(r'^api/accounts/', include(("accounts.urls", "accounts"), namespace="accounts")),
+    url(r'^api/transactions/', include(("transactions.urls", "transactions"), namespace="transactions")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -21,7 +21,7 @@ def get_random_id():
 
 class Account(models.Model):
     id = models.IntegerField(primary_key=True, default=get_random_id, editable=False)
-    user = models.ForeignKey('users.User', related_name='account_owner', verbose_name=_('Account Owner'))
+    user = models.ForeignKey('users.User', related_name='account_owner', verbose_name=_('Account Owner'), on_delete=models.CASCADE)
     balance = models.DecimalField(_('Balance'), max_digits=10, default=0.0, decimal_places=2)
     currency = models.PositiveIntegerField(_('Currency'), choices=CURRENCY, default=0)
     create_time = models.DateTimeField(_('Create time'), default=timezone.now)

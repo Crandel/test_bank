@@ -43,6 +43,7 @@ htmlcov
 .env
 env
 .venv
+.workon
 
 # User-uploaded media
 media/

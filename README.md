@@ -8,10 +8,7 @@ First of all you need python 3.6 and node.js/npm installed
 Please install all necessary dependencies
 
 ```bash
-sudo npm install -g webpack
 pip install -r requirements.txt
-npm install
-webpack
 ```
 
 When it will be done you must add config env file there will be your secure settings( database connection, secret salt etc.) from example *env.example*

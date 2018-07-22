@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^api/accounts/', include(("accounts.urls", "accounts"), namespace="accounts")),
     url(r'^api/transactions/', include(("transactions.urls", "transactions"), namespace="transactions")),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

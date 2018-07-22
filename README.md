@@ -26,8 +26,6 @@ nano .env
 At last you could run the server
 
 ```bash
-$ python manage.py collectstatic --noinput
-
 $ python manage.py migrate
 
 $ python manage.py runserver

@@ -7,5 +7,5 @@ from users.api import SignUpView
 
 urlpatterns = [
     url(r'^login$', views.obtain_auth_token, name='login'),
-    url(r'^signup$', SignUpView.as_view(), name='signup'),
+    url(r'$', SignUpView.as_view(), name='signup'),
 ]

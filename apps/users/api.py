@@ -1,9 +1,12 @@
+import logging
 from django.contrib.auth import get_user_model
 
 from rest_framework import generics, mixins, status
 from rest_framework.response import Response
 
 from users.serializers import SignUpSerializer, UserSerializer
+
+log = logging.getLogger(__name__)
 
 User = get_user_model()
 

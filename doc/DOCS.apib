@@ -1,0 +1,194 @@
+FORMAT: 1A
+HOST: http://bank.io
+
+# REST API
+Documentation REST API for test bank application.
+
+
+# Group Users
+Sign up, login
+
+## Sign up [/api/users]
+### Sign up [POST]
++ Request (application/json)
+    + Attributes (UserBase)
+
++ Response 200 (application/json)
+    + Attributes
+        + user_id: 12345678 - new user id
+
+## Login [/api/users/login]
+### Login [POST]
++ Request (application/json)
+    + Attributes (UserLogin)
+
++ Response 200 (application/json)
+    + Attributes
+        + token: `sdfdfdsf` (string) - token for authorisation
+
+
+# Group Accounts
+User can have several accounts and manage them
+
+## Accounts [/api/accounts]
+
+### Accounts list [GET]
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200
+    + Attributes (array[Account])
+
+### Create Account [POST]
+
++ Request (application/json)
+    + Attributes (AccountBase)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200 (application/json)
+    + Attributes 
+        + account_id: 12345678 (number) - new account id
+
+## Account [/api/accounts/{account_id}]
+
++ Parameters
+    + account_id: 12345678 (required, number) - Account id
+
+### Account Detail [GET]
+Get account detailed information
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200 (application/json)
+    + Attributes (Account)
++ Response 404
+    + Attributes (Error)
+
+### Delete Account [DELETE]
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200
++ Response 404
+    + Attributes (Error)
+
+### Update Account [PUT]
++ Request (application/json)
+    + Attributes (AccountBase)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 204
++ Response 404
+    + Attributes (Error)
+
+
+
+# Group Transactions
+User can have several transactions for each account and manage them
+
+
+## Transactions [/api/transactions]
+
+### Transactions list [GET]
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200
+    + Attributes (array[Transaction])
+
+### Create Transaction [POST]
+
++ Request (application/json)
+    + Attributes (TransactionBase)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200 (application/json)
+    + Attributes 
+        + transaction_id: 12345678 (number) - new transaction id
+
+## Transaction [/api/transactions/{transaction_id}]
+
++ Parameters
+    + transaction_id: 12345678 (required, number) - Transaction id
+
+### Transaction Detail [GET]
+Get transcation detailed information
+
++ Response 200 (application/json)
+    + Attributes (Transaction)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 404
+    + Attributes (Error)
+
+### Delete Transaction [DELETE]
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 200
++ Response 404
+    + Attributes (Error)
+
+### Update Transaction [PUT]
++ Request (application/json)
+    + Attributes (TransactionBase)
+    + Headers
+
+            Authorization: Bearer ABC123 - use token from login response
+
++ Response 204
++ Response 404
+    + Attributes (Error)
+
+
+# Data Structures
+
+## UserLogin (object)
+- email: `john.doe@example.com` (string, required) - email
+- password: `password` (string, required) - user password
+
+## UserBase (UserLogin)
+- username: `John Doe` (string, optional) - User name
+- first_name: `John` (string, optional) - User first name
+- last_name: `Doe` (string, optional) - User last name
+
+## User (UserBase)
+- id: `12345678` (number, required) - User id
+
+## AccountBase (object)
+- user_id: `12345678` (number, required) - User id, connected with account
+- currency: EUR, USD, GBP, CHF (enum, required) - Account currency
+- amount: `12.50` (number, required) - Amount of money in account, **must** be a positive integer
+
+## Account(AccountBase)
+- id: `12345678` (number, required) - Account id
+
+## TransactionBase (object)
+- source_account: `12345678` (number, required) - Source account id
+- destination_account: `12345678` (number, required) - Destination account id
+- amount: `12.50` (number, required) - Amount of money in for transaction, **must** be a positive integer
+
+## Transaction (TransactionBase)
+- id: `12345678` (number, required) - Transaction id
+
+## Error (object)
+- error: `true` (boolean)
+- message: `No such object found in database.` (string)

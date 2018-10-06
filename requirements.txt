@@ -1,5 +1,5 @@
 # Bleeding edge Django
-Django==2.0.6
+Django>=2.0.6
 
 # API
 djangorestframework==3.8.2

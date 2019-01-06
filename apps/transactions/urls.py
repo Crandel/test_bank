@@ -1,7 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 
 from transactions import api
 
+app_name = 'transactions'
+
 urlpatterns = [
-    url(r'^$', api.TransactionCreateAPIView.as_view(), name='create_transaction'),
+    path('', api.TransactionCreateAPIView.as_view(), name='create_transaction'),
 ]

@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+django-test-plus = "*"
+ipython = "*"
+ipdb = "*"
+factory_boy = "*"
+pdbpp = "*"
+
+[packages]
+Django = "==2.1.5"
+djangorestframework = "==3.9.0"
+environs = {extras = ["twisted"],version = "==4.1.0"}
+requests = "==2.21.0"
+
+[requires]
+python_version = "3.7"

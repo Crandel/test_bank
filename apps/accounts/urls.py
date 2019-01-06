@@ -1,11 +1,13 @@
-from django.conf.urls import url
+from django.urls import path, re_path
 
 from django.conf import settings
 from accounts import api
 
+app_name = 'accounts'
+
 urlpatterns = [
-    url(r'^$', api.AccountCreateAPIView.as_view(), name='create_account'),
-    url(r'^list$', api.AccountListAPIView.as_view(), name='account_list'),
-    url(r'^(?P<pk>{UUID})$'.format(UUID=settings.UUID_REGEX),
+    path('', api.AccountCreateAPIView.as_view(), name='create_account'),
+    path('list', api.AccountListAPIView.as_view(), name='account_list'),
+    re_path(r'^(?P<pk>{UUID})$'.format(UUID=settings.UUID_REGEX),
         api.AccountDetailAPIView.as_view(), name='account_detail'),
 ]

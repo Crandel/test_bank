@@ -44,6 +44,7 @@ htmlcov
 env
 .venv
 .workon
+.mypy_cache/
 
 # User-uploaded media
 media/

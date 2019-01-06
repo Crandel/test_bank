@@ -1,17 +1,14 @@
-import environ
+from environs import Env
 import sys
-from os import path
+from pathlib import Path
 
-ROOT_DIR = environ.Path(__file__) - 2
-APPS_DIR = ROOT_DIR.path('apps')
+ROOT_DIR = Path("..").cwd()
+APP_DIR = ROOT_DIR / 'apps'
 
 sys.path.append('apps')
 
-env_file = '.env'
-if path.isfile(env_file):
-    environ.Env.read_env('{}{}'.format(ROOT_DIR, '/.env'))
-
-env = environ.Env()
+env = Env()
+env.read_env()
 
 # APP CONFIGURATION
 DJANGO_APPS = (
@@ -64,7 +61,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DJANGO_DATABASE_URL', default='sqlite://localhost/project.db')
+    'default': env.dj_db_url('DJANGO_DATABASE_URL', default='sqlite://localhost/project.db')
 }
 
 TIME_ZONE = 'UTC'
@@ -98,7 +95,8 @@ TEMPLATES = [
             ]
         },
     },
-]# URL Configuration
+]
+# URL Configuration
 # ------------------------------------------------------------------------------
 ROOT_URLCONF = 'config.urls'
 
@@ -110,7 +108,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 AUTH_USER_MODEL = 'users.User'
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
-ADMIN_URL = r'^admin/'
+ADMIN_URL = 'admin'
 
 # Your common stuff: Below this line define 3rd party library settings
 
@@ -120,7 +118,7 @@ ADMIN_URL = r'^admin/'
 # Note: This key only used for development and testing.
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='CHANGEME!!!#=$rcwjy2mk5)17-yb$(bkaju8r9*683(+1$+b@etxc9m^48)+')
 
-UUID_REGEX = '[0-9]{8}$'
+UUID_REGEX = '[0-9]{8}'
 
 # DJANGO-REST-FRAMEWORK CONFIGURATION
 REST_FRAMEWORK = {
@@ -133,6 +131,7 @@ REST_FRAMEWORK = {
     'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
     # 'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
+
 # END DJANGO-REST-FRAMEWORK CONFIGURATION
 LOGGING = {
     'version': 1,
@@ -152,7 +151,7 @@ LOGGING = {
         'logfile': {
             'level': 'WARNING',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': path.join(str(ROOT_DIR), 'log/django.log'),
+            'filename': ROOT_DIR / 'log' / 'django.log',
             'formatter': 'standard',
         },
         'console': {

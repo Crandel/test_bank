@@ -44,4 +44,4 @@ class Account(models.Model):
             return self.balance - amount > 0
 
     def __str__(self):
-        return '%.2f %s' % (self.balance, self.currency_type)
+        return f'{self.id}'

@@ -7,11 +7,21 @@ from accounts.models import get_random_id
 
 class Transaction(models.Model):
     id = models.IntegerField(primary_key=True, default=get_random_id, editable=False)
-    source_account = models.ForeignKey('accounts.Account', related_name='source_account', verbose_name=_('Source Account'),
-                                       blank=True, null=True, on_delete=models.CASCADE)
-    destination_account = models.ForeignKey('accounts.Account', related_name='destination_account', verbose_name=_('Destination Account'),
-                                            blank=True, null=True, on_delete=models.CASCADE)
-    amount = models.DecimalField(_('Amount'), max_digits=10, decimal_places=2)
+    source_account = models.ForeignKey('accounts.Account',
+                                       related_name='source_account',
+                                       verbose_name=_('Source Account'),
+                                       blank=True,
+                                       null=True,
+                                       on_delete=models.CASCADE)
+    destination_account = models.ForeignKey('accounts.Account',
+                                            related_name='destination_account',
+                                            verbose_name=_('Destination Account'),
+                                            blank=True,
+                                            null=True,
+                                            on_delete=models.CASCADE)
+    amount = models.DecimalField(_('Amount'),
+                                 max_digits=10,
+                                 decimal_places=2)
     create_time = models.DateTimeField(_('Create time'), default=timezone.now)
 
     def __str__(self):

@@ -148,10 +148,10 @@ LOGGING = {
         }
     },
     'handlers': {
-        'logfile': {
+        'file': {
             'level': 'WARNING',
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': ROOT_DIR / 'log' / 'django.log',
+            'class': 'logging.FileHandler',
+            'filename': str(ROOT_DIR) + '/log/django.log',
             'formatter': 'standard',
         },
         'console': {
@@ -161,8 +161,18 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django.security': {
-            'handlers': ['console', 'logfile'],
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'accounts': {
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'transactions': {
+            'handlers': ['console', 'file'],
             'level': 'ERROR',
             'propagate': False,
         },
@@ -170,4 +180,5 @@ LOGGING = {
 }
 
 
-FIXER_BASE_URL = 'http://api.fixer.io/latest'
+FIXER_BASE_URL = 'http://data.fixer.io/api/latest'
+FIXER_ACCESS_KEY = env('FIXER_ACCESS_KEY', default='')

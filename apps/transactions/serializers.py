@@ -11,6 +11,7 @@ class TransactionDefaultSerializer(serializers.ModelSerializer):
         model = Transaction
         fields = ('id', 'source_account', 'destination_account', 'amount', 'create_time')
         extra_kwargs = {
+            'source_account': {'required': True},
             'amount': {'validators': [MinValueValidator(limit_value=0.01)]},
         }
 
@@ -21,9 +22,10 @@ class TransactionDefaultSerializer(serializers.ModelSerializer):
             destination_account = self.validated_data.get('destination_account')
             source_account = self.validated_data.get('source_account')
             amount = self.validated_data.get('amount')
-            if destination_account and source_account:
+            result = None
+            if destination_account:
                 result = source_account.check_result(amount, destination_account.currency_type)
-            elif source_account:
+            else:
                 result = source_account.balance - amount > 0
             if not result:
                 self._errors['amount'] = _('Amount exceeds the limit')

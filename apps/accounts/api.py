@@ -68,10 +68,13 @@ class AccountListAPIView(generics.ListAPIView):
     Available methods:
     - `GET`: Getting list of `Account` objects for all authenticated users
     """
-    queryset = Account.objects.all()
     serializer_class = AccountListSerializer
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = PageNumberPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        return Account.objects.filter(user=user)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()

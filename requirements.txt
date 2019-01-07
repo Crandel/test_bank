@@ -5,7 +5,7 @@ Django==2.1.5
 djangorestframework==3.9.0
 
 # Configuration
-environs==4.1.0
+environs[django]==4.1.0
 
 requests==2.21.0
 

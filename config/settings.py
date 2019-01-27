@@ -100,7 +100,7 @@ TEMPLATES = [
 # ------------------------------------------------------------------------------
 ROOT_URLCONF = 'config.urls'
 
-STATIC_URL = '/static/'
+STATIC_URL = '/public/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = 'config.wsgi.application'

@@ -48,6 +48,7 @@ env
 
 # User-uploaded media
 media/
+public/
 staticfiles/
 static/js/project.js*
 
@@ -56,3 +57,4 @@ node_modules/
 
 #vagrant
 .vagrant
+dist

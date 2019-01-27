@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
 from rest_framework.authtoken import views
+
 from users.api import SignUpView
 
 
